@@ -29,4 +29,17 @@ public class Av2chTest {
         boolean valid = Validator.runValidation(file.toFile().getAbsolutePath(), settings);
         assertTrue(valid, "Result file is not valid (ilivalidator).");
     }
+    
+    @Test
+    public void convert_SO_Fail(@TempDir Path tempDir) throws IllegalArgumentException, IoxException, Ili2cException {    
+        Path file = tempDir.resolve("ch_fubar.itf");
+        
+        Av2ch av2ch = new Av2ch();
+        
+        try {
+            av2ch.convert("src/test/data/fubar.itf", file.toFile().getParent(), "de");
+        } catch (IoxException e) {
+            assertTrue(true);
+        }        
+    }
 }
