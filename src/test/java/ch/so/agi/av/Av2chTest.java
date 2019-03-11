@@ -39,7 +39,7 @@ public class Av2chTest {
         try {
             av2ch.convert("src/test/data/fubar.itf", file.toFile().getParent(), "de");
         } catch (IoxException e) {
-            assertTrue(true);
+            assertTrue(e.getMessage().contains("could not parse file: fubar.itf"), "Exception message does not match.");
         }        
     }
 }
