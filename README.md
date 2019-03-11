@@ -12,11 +12,6 @@ Travis deploys library to bintray/jcenter.
 
 Library is used in GRETL.
 
-Tasks:
-- Javadoc
-- Tests (SO, GL too big, ...)
-- Travis
-- Transfer ownership
-- Deploy library to jcenter
+TODO:
+- More tests (failing)
 - GRETL-Task
-- README
