@@ -1,6 +1,9 @@
 package ch.so.agi.av;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,6 +67,11 @@ public class Av2ch {
      * @throws IllegalArgumentException
      */
     public void convert(String inputFileName, String outputPath, String language) throws IoxException, Ili2cException, IllegalArgumentException {
+        PrintStream console = System.err;
+        NullOutputStream nos = new NullOutputStream();
+        PrintStream ps = new PrintStream(nos);
+        System.setErr(ps);
+        
         inputModelName = getModelNameFromTransferFile(inputFileName);
         iliTdInput = getTransferDescription(inputModelName);
         tag2type = ch.interlis.iom_j.itf.ModelUtilities.getTagMap(iliTdInput);
@@ -153,10 +161,13 @@ public class Av2ch {
                 event = ioxReader.read();
             }
         } catch (IoxException e) {
+            System.setErr(console);
             log.error(e.getMessage());
             e.printStackTrace();
             throw new IoxException(e.getMessage());
             // throw gretl exception
+        } finally {
+            System.setErr(console);
         }
     }
     
@@ -461,4 +472,9 @@ public class Av2ch {
         return model;
     }
 
+    public class NullOutputStream extends OutputStream {
+        @Override
+        public void write(int b) throws IOException {
+        }
+    }
 }
