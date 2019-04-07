@@ -56,21 +56,23 @@ public class Av2ch {
     
     /**
      * Converts surveying data from a cantonal INTERLIS model into the federal model. 
-     * A simple prefix ('ch_') will be added the to file name.
+     * The outputFileName can be null. In this case a simple prefix ('ch_') will 
+     * be added the to file name.
      * LV95 only! LV03 is not supported!
      * 
-     * @param inputFileName
-     * @param outputPath
+     * @param inputFileName The absolute path of the input file.
+     * @param outputPath The output directory.
+     * @param outputFileName The file name only or null.
      * @param language The language of the model (de, it)
      * @throws IoxException
      * @throws Ili2cException
      * @throws IllegalArgumentException
      */
-    public void convert(String inputFileName, String outputPath, String language) throws IoxException, Ili2cException, IllegalArgumentException {
+    public void convert(String inputFileName, String outputPath, String outputFileName, String language) throws IoxException, Ili2cException, IllegalArgumentException {
         PrintStream console = System.err;
         NullOutputStream nos = new NullOutputStream();
         PrintStream ps = new PrintStream(nos);
-        System.setErr(ps);
+//        System.setErr(ps);
         
         inputModelName = getModelNameFromTransferFile(inputFileName);
         iliTdInput = getTransferDescription(inputModelName);
@@ -89,7 +91,11 @@ public class Av2ch {
             ((ItfReader) ioxReader).setRenumberTids(false);
             ((ItfReader) ioxReader).setReadEnumValAsItfCode(true);
 
-            String outputFileName = Paths.get(outputPath, PREFIX + new File(inputFileName).getName()).toString();
+            if (outputFileName == null) {
+                outputFileName = Paths.get(outputPath, PREFIX + new File(inputFileName).getName()).toString();
+            } else {
+                outputFileName = Paths.get(outputPath, outputFileName).toString();
+            }
 
             File outputFile = new File(outputFileName);
             ioxWriter = new ItfWriter(outputFile, iliTdOutput);
