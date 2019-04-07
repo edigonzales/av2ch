@@ -72,7 +72,7 @@ public class Av2ch {
         PrintStream console = System.err;
         NullOutputStream nos = new NullOutputStream();
         PrintStream ps = new PrintStream(nos);
-//        System.setErr(ps);
+        System.setErr(ps);
         
         inputModelName = getModelNameFromTransferFile(inputFileName);
         iliTdInput = getTransferDescription(inputModelName);
