@@ -166,7 +166,7 @@ public class Av2ch {
                 }
                 event = ioxReader.read();
             }
-        } catch (IoxException e) {
+        } catch (Exception e) {
             System.setErr(console);
             log.error(e.getMessage());
             e.printStackTrace();
