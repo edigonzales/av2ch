@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    api 'ch.interlis:ili2c-tool:4.7.7' // see gretl dependencies
+    api 'ch.interlis:ili2c-tool:5.0.0' 
 
     implementation 'commons-io:commons-io:2.6'
     implementation 'org.slf4j:slf4j-api:1.7.26'
