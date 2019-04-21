@@ -14,9 +14,9 @@ repositories {
 dependencies {
     api 'ch.interlis:ili2c-tool:5.0.0' 
 
-    implementation 'commons-io:commons-io:2.6'
-    implementation 'org.slf4j:slf4j-api:1.7.26'
-    implementation 'org.slf4j:slf4j-simple:1.7.26'
+    api 'commons-io:commons-io:2.6'
+    api 'org.slf4j:slf4j-api:1.7.26'
+    api 'ch.qos.logback:logback-classic:1.2.3'
         
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
