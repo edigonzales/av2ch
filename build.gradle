@@ -2,7 +2,7 @@ plugins {
     id 'java-library'
     id "com.jfrog.bintray" version "1.8.4" 
 }
- 
+  
 apply plugin: 'maven-publish'
 apply from: "gradle/versioning.gradle"
 
