@@ -8,10 +8,10 @@ It supports german and italian transfer files. Only LV95 is supported. Originall
 ./gradle clean build
 ```
 
-Travis deploys library to bintray/jcenter.
+Github Action deploys library to Maven Central.
 
 Library is used in GRETL.
 
 TODO:
-- More tests (failing)
+- More tests (failures)
 - GRETL-Task

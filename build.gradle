@@ -1,13 +1,14 @@
 plugins {
     id 'java-library'
-    id "com.jfrog.bintray" version "1.8.4" 
+    id 'maven-publish'
+    id 'signing'
+    id "io.github.gradle-nexus.publish-plugin" version "1.0.0"
 }
   
-apply plugin: 'maven-publish'
 apply from: "gradle/versioning.gradle"
 
 repositories {
-    jcenter()
+    mavenCentral()
     maven { url "http://jars.interlis.ch/" }
 }
 
@@ -26,7 +27,7 @@ dependencies {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-group = 'ch.so.agi.av'
+group = 'io.github.sogis'
 
 
 test {
@@ -36,7 +37,6 @@ test {
     failFast = true
 }
 
-// Bintray / jcenter
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource
@@ -48,74 +48,50 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
-
-def githubRepoUrl = "https://github.com/sogis/av2ch"
-def pomConfig = {
-    licenses {
-        license {
-            name "MIT License"
-            url "https://github.com/sogis/av2ch/blob/master/LICENSE"
-        }
-    }
-    developers {
-        developer {
-            id "edigonzales"
-            name "Stefan Ziegler"
-            email "stefan.ziegler@bd.so.ch"
-        }
-    }
-
-    scm {
-        url githubRepoUrl
-    }
-}
-
 publishing {
     publications {
-        mavenPublication(MavenPublication) {
+        mavenJava(MavenPublication) {
             from components.java
-            artifact sourcesJar {
-                classifier "sources"
-            }
-            artifact javadocJar {
-                classifier "javadoc"
-            }
-            groupId project.group
-            artifactId 'av2ch'
-            version project.version
-            pom.withXml {
-                def root = asNode()
-                root.appendNode('description', 'A library that converts a cadastral INTERLIS dataset (itf) from the cantonal model to the federal model.')
-                root.appendNode('name', 'av2ch')
-                root.appendNode('url', githubRepoUrl)
-                root.children().last() + pomConfig
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                name = "av2ch"
+                url = "https://github.com/sogis/av2ch"
+                description = "av2ch"
+                scm {
+                    connection = "scm:git:https@github.com/sogis/av2ch"
+                    developerConnection = "scm:git:https@github.com/sogis/av2ch"
+                    url = "https://github.com/sogis/av2ch"
+                }
+                licenses {
+                    license {
+                        name = "MIT"
+                        url = "https://github.com/sogis/av2ch/blob/master/LICENSE"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "edigonzales"
+                        name = "Stefan Ziegler"
+                    }
+                }
             }
         }
     }
 }
 
-bintray {
-    user = System.env.bintrayUser
-    key = System.env.bintrayKey
-    publications = ['mavenPublication']
-    publish = true
-    
-    pkg {
-        repo = 'av2ch'
-        name = 'av2ch'
-        userOrg = 'sogis'
-        licenses = ['MIT']
-        labels = ['DM01', 'interlis', 'itf']        
-        vcsUrl = githubRepoUrl
-        version {
-            name = project.version
-            desc = project.version
-            released  = new Date()
+signing {
+    sign publishing.publications.mavenJava
+}
+
+nexusPublishing {
+    repositories {
+        sonatype { 
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            username = findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
+            password = findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
         }
     }
 }
-
