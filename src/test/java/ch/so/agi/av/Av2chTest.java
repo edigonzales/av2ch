@@ -51,6 +51,7 @@ public class Av2chTest {
         Path file = tempDir.resolve("ch_254900.itf");
         
         Av2ch av2ch = new Av2ch();
+        av2ch.setModeldir("%XTF_DIR;http://models.interlis.ch/;%JAR_DIR");
         av2ch.convert("src/test/data/254900.itf", file.toFile().getParent(), null, "de");
         
         long resultSize = file.toFile().length();

@@ -35,6 +35,8 @@ public class Av2ch {
     private ch.interlis.ili2c.metamodel.TransferDescription iliTdInput = null;
     private ch.interlis.ili2c.metamodel.TransferDescription iliTdOutput = null;
     
+    private String repositories[] = null;
+    
     private Map tag2type = null;
     private String inputModelName = null;
     private static HashMap<String, String> outputModelNames;
@@ -47,7 +49,7 @@ public class Av2ch {
     private ArrayList inputTables = null;
     private ArrayList outputTables = null;
     private EnumCodeMapper enumCodeMapper = new EnumCodeMapper();
-    
+      
     static {
         outputModelNames = new HashMap<String, String>();
         outputModelNames.put("de","DM01AVCH24LV95D");
@@ -175,6 +177,10 @@ public class Av2ch {
         } finally {
             System.setErr(console);
         }
+    }
+    
+    public void setModeldir(String modeldir) {
+        repositories = modeldir.split(";"); 
     }
     
     /*

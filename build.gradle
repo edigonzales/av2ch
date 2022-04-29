@@ -9,7 +9,7 @@ apply from: "gradle/versioning.gradle"
 
 repositories {
     mavenCentral()
-    maven { url "http://jars.interlis.ch/" }
+    maven { url "https://jars.interlis.ch/" }
 }
 
 dependencies {
