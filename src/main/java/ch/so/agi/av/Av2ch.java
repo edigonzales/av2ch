@@ -413,8 +413,11 @@ public class Av2ch {
     private ch.interlis.ili2c.metamodel.TransferDescription getTransferDescription(String iliModelName)
             throws Ili2cException {
         IliManager manager = new IliManager();
-        String repositories[] = new String[] { "http://models.interlis.ch/", "http://models.kkgeo.ch/",
-                "http://models.geo.admin.ch/" };
+        
+        if (repositories == null) {
+            repositories = new String[] { "http://models.interlis.ch/", "http://models.kkgeo.ch/", "http://models.geo.admin.ch/" };
+        }
+        
         manager.setRepositories(repositories);
         ArrayList modelNames = new ArrayList();
         modelNames.add(iliModelName);
